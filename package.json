@@ -1,0 +1,22 @@
+{
+  "name": "swampoverseer",
+  "version": "2.0.0",
+  "description": "Repository for SwampOverseer, a Discord bot focused on memes and fun stuff",
+  "main": "entrypoint.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SweetieRick/SwampOverseer.git"
+  },
+  "author": "SweetieRick",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "bugs": {
+    "url": "https://github.com/SweetieRick/SwampOverseer/issues"
+  },
+  "homepage": "https://github.com/SweetieRick/SwampOverseer#readme",
+  "dependencies": {
+    "discord.js": "^12.5.3"
+  }
+}
