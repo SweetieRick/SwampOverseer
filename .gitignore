@@ -48,3 +48,5 @@ junit.xml
 !/.eslintrc.json
 !/tsconfig.eslint.json
 !/.github/workflows/release.yml
+.env
+src-old/*

@@ -44,7 +44,7 @@
       "off"
     ],
     "@typescript-eslint/indent": [
-      "error",
+      "off",
       2
     ],
     "quotes": [

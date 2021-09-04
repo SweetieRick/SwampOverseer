@@ -1,7 +1,9 @@
-const { TypeScriptProject } = require('projen');
+const { TypeScriptProject, ProjectType } = require('projen');
 const project = new TypeScriptProject({
   defaultReleaseBranch: 'main',
   name: 'SwampOverseer',
+  description: undefined,
+  projectType: ProjectType.APP,
 
   // deps: [],                          /* Runtime dependencies of this module. */
   // description: undefined,            /* The description is just a string that helps people understand the purpose of the package. */
