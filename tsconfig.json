@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "lib",
+    "outDir": "app",
     "alwaysStrict": true,
     "declaration": true,
     "experimentalDecorators": true,
