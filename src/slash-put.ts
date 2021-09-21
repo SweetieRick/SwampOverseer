@@ -1,13 +1,14 @@
+import * as fs from 'fs';
 import { Routes } from 'discord-api-types/v9';
 
-const commands = [{
-  name: 'ping',
-  description: '🏓 Got the ball',
-},
-{
-  name: 'serverinfo',
-  description: 'Gets server info',
-}];
+const commands: any[] = [];
+
+const cmdFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+for (const file of cmdFiles) {
+	// eslint-disable-next-line @typescript-eslint/no-require-imports
+	const command = require(`./commands/${file}`);
+	commands.push(command.data.toJSON());
+}
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 export class SlashRegister {
