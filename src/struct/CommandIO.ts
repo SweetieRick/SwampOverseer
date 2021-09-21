@@ -1,13 +1,18 @@
 // ! import { PermissionFlags, Permissions } from 'discord.js';
 
-abstract class MemCommand {
+// ! import { CommandInteraction } from "discord.js";
+
+/*
+abstract class Command {
+    execute(interaction: CommandInteraction) {
+      throw new Error('Method not implemented.');
+    }
+
     constructor(
         public name: string,
         public category: string,
         public aliases: Array<string>,
         public cooldown: number,
-        // Internal command values
-        // ! private permissions: Permissions,
     ) {}
 
     getCmdName(): string {
@@ -26,3 +31,4 @@ abstract class MemCommand {
         return console.log('cum');
     }
 }
+*/
