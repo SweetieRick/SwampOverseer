@@ -1,4 +1,4 @@
-import { Collection }  from '@discordjs/collection';
+import { Collection } from '@discordjs/collection';
 
 declare module "discord.js" {
     export interface Client {

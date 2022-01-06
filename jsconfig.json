@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "baseUrl": "src",
+        "rootDir": "src",
+        "paths": {
+            "@client/*": ["client/*"],
+            "@template/*": ["template/*"],
+            "@functions/*": ["functions/*"],
+            "@events/*": ["events/*"],
+            "@commands/*": ["commands/*"]
+        }
+    }
+}

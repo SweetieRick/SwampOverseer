@@ -1,9 +1,9 @@
 // eslint-disable-next-line import/no-unresolved
 import { REST } from '@discordjs/rest';
-import { Client, Intents, Collection } from 'discord.js';
+import { Client, Intents } from 'discord.js';
 // import { fixBoostLevelIndicator, fixContentFilterIndicator, fixVerificationLevelIndicator } from './functions/ServerInfoUtils';
 import { SlashRegister } from './slash-put';
-import { CommandRegister } from './struct/CommandRegisterIO';
+import { CommandRegister } from './template/CommandRegister';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const dotenv = require('dotenv');
@@ -21,22 +21,20 @@ const client = new Client({
 });
 
 // Command Register
-client.commands = new Collection();
+export const commands: any[] = [];
 const cmdRegister = new CommandRegister();
-cmdRegister.registerCommandData(client.commands, './commands');
 
 // Loader bus
-client.once('ready', () => {
-  console.log('Swamp Tester online');
+client.once('ready', async () => {
+  console.log(`SwampOverseer is online as ${client.user?.username}#${client.user?.discriminator}`);
   const rest = new REST({ version: '9' }).setToken((process.env.TOKEN as string));
-  const slashmanager = new SlashRegister();
-  void slashmanager.registerSlashCommands(rest);
+  const slashregister = new SlashRegister();
+  void slashregister.registerSlashCommands(rest, await cmdRegister.registerCommandData(commands, './src/commands'));
 });
 
 // Interaction handler
 client.on('interactionCreate', async interaction => {
   if (!interaction.isCommand()) return;
-  // ! const { commandName } = interaction;
 
   const command = client.commands.get(interaction.commandName);
   if (!command) return;
@@ -49,6 +47,23 @@ client.on('interactionCreate', async interaction => {
 	}
 });
 
+/*
+client.on('messageCreate', async message => {
+  if (message.author.bot) return;
+  if (message.content.startsWith((process.env.PREFIX as string))) {
+    const [cmdName, ...cmdArgs] = message.content
+      .slice((process.env.PREFIX as string).length)
+      .trim()
+      .split(/\s+/);
+    const command = client.commands.get(cmdName);
+    try {
+      command?.execute();
+    } catch (e) {
+      throw new Error('Could not parse command:' + e);
+    }
+  }
+});
+*/
+
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 client.login(process.env.TOKEN);
-
