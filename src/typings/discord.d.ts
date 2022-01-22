@@ -8,7 +8,13 @@ declare module "discord.js" {
     export interface Command {
         name: string,
         description: string,
-        interact: (interaction: Interaction) => Promise<any> // Can be `Promise<SomeType>` if using async
+        interact: (interaction: Interaction, client: Client) => Promise<any> // Can be `Promise<SomeType>` if using async
         execute: (message: Message) => Promise<any>
+    }
+
+    export interface Event {
+        name: string,
+        once: boolean,
+        invoke: (client: Client) => Promise<any>
     }
 }

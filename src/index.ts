@@ -1,8 +1,7 @@
-import * as fs from 'fs';
 // eslint-disable-next-line import/no-unresolved
 import { Client, Collection, Intents } from 'discord.js';
 // import { fixBoostLevelIndicator, fixContentFilterIndicator, fixVerificationLevelIndicator } from './functions/ServerInfoUtils';
-import registerSlashCommands from './slash-put';
+import registerSlashCommands from './interface/CommandRegister';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const dotenv = require('dotenv');
 dotenv.config();
@@ -18,24 +17,13 @@ const client = new Client({
     ],
 });
 
-/**
- * A helper runner that registers all commands to later use
- * in command handling
- * @returns The full list of all commands to the default collection
- */
+
 client.commands = new Collection();
-const commandFiles = fs.readdirSync(`${__dirname}/commands`).filter(file => file.endsWith('.js'));
-for (const file of commandFiles) {
-	// eslint-disable-next-line @typescript-eslint/no-require-imports
-	const command = require(`${__dirname}/commands/${file}`);
-	client.commands.set(command.data.name, command);
-}
 
 // >> Loader bus
 client.once('ready', async () => {
   console.log(`SwampOverseer is online as ${client.user?.tag}`);
-  console.log(client.commands);
-  await registerSlashCommands(`${__dirname}/commands`);
+  await registerSlashCommands(client.commands, `${__dirname}/commands`);
 });
 
 // >> Interaction handler
@@ -46,7 +34,7 @@ client.on('interactionCreate', async interaction => {
   if (!command) return;
 
   try {
-		await command.interact(interaction);
+		await command.interact(interaction, client);
 	} catch (error) {
 		console.error(error);
 		await interaction.reply({ content: 'Could not execute the command, please try later', ephemeral: true });
@@ -54,6 +42,7 @@ client.on('interactionCreate', async interaction => {
 });
 
 /*
+// >> Message handler
 client.on('messageCreate', async message => {
   if (message.author.bot) return;
   if (message.content.startsWith((process.env.PREFIX as string))) {
