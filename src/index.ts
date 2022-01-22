@@ -1,10 +1,8 @@
+import * as fs from 'fs';
 // eslint-disable-next-line import/no-unresolved
-import { REST } from '@discordjs/rest';
-import { Client, Intents } from 'discord.js';
+import { Client, Collection, Intents } from 'discord.js';
 // import { fixBoostLevelIndicator, fixContentFilterIndicator, fixVerificationLevelIndicator } from './functions/ServerInfoUtils';
-import { SlashRegister } from './slash-put';
-import { CommandRegister } from './template/CommandRegister';
-
+import registerSlashCommands from './slash-put';
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const dotenv = require('dotenv');
 dotenv.config();
@@ -20,27 +18,35 @@ const client = new Client({
     ],
 });
 
-// Command Register
-export const commands: any[] = [];
-const cmdRegister = new CommandRegister();
+/**
+ * A helper runner that registers all commands to later use
+ * in command handling
+ * @returns The full list of all commands to the default collection
+ */
+client.commands = new Collection();
+const commandFiles = fs.readdirSync(`${__dirname}/commands`).filter(file => file.endsWith('.js'));
+for (const file of commandFiles) {
+	// eslint-disable-next-line @typescript-eslint/no-require-imports
+	const command = require(`${__dirname}/commands/${file}`);
+	client.commands.set(command.data.name, command);
+}
 
-// Loader bus
+// >> Loader bus
 client.once('ready', async () => {
-  console.log(`SwampOverseer is online as ${client.user?.username}#${client.user?.discriminator}`);
-  const rest = new REST({ version: '9' }).setToken((process.env.TOKEN as string));
-  const slashregister = new SlashRegister();
-  void slashregister.registerSlashCommands(rest, await cmdRegister.registerCommandData(commands, './src/commands'));
+  console.log(`SwampOverseer is online as ${client.user?.tag}`);
+  console.log(client.commands);
+  await registerSlashCommands(`${__dirname}/commands`);
 });
 
-// Interaction handler
+// >> Interaction handler
 client.on('interactionCreate', async interaction => {
+  // Defualt command existance checks
   if (!interaction.isCommand()) return;
-
   const command = client.commands.get(interaction.commandName);
   if (!command) return;
 
   try {
-		await command.execute(interaction);
+		await command.interact(interaction);
 	} catch (error) {
 		console.error(error);
 		await interaction.reply({ content: 'Could not execute the command, please try later', ephemeral: true });

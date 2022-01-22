@@ -1,11 +1,12 @@
+import { SlashCommandBuilder } from '@discordjs/builders';
 import { fixBoostLevelIndicator, fixContentFilterIndicator, fixVerificationLevelIndicator } from '../functions/ServerInfoUtils';
 
 module.exports = {
-    data: {
-        name: 'serverinfo',
-        description: 'Gets server info',
-    },
-    async execute(interaction: any) {
+    data: new SlashCommandBuilder()
+      .setName('serverinfo')
+      .setDescription('Gets the server description')
+    ,
+    async interact(interaction: any) {
         const embed = {
             color: 0xa3ae7e,
             author: {

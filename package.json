@@ -4,8 +4,7 @@
     "compile": "tsc --build tsconfig.json",
     "dev": "tsc --watch",
     "start": "node app/index.js",
-    "pipe": "yarn run compile && node app/index.js",
-    "reset-node": "nvm use default 17"
+    "pipe": "yarn run compile && node app/index.js"
   },
   "devDependencies": {
     "@types/jest": "^27.0.1",
@@ -63,6 +62,7 @@
     "@discordjs/collection": "^0.4.0",
     "@discordjs/rest": "^0.2.0-canary.0",
     "@types/node-fetch": "^3.0.3",
+    "chalk": "^5.0.0",
     "discord-api-types": "^0.26.1",
     "discord.js": "^13.5.0",
     "dotenv": "^10.0.0",

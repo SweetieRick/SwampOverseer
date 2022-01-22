@@ -42,7 +42,6 @@ junit.xml
 !/test/
 !/tsconfig.json
 /lib
-!/src/
 /dist/
 !/tsconfig.jest.json
 !/.eslintrc.json
@@ -50,4 +49,4 @@ junit.xml
 !/.github/workflows/release.yml
 .env
 src-old/*
-node-fetch-fix.sh
+app/

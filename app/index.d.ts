@@ -1,1 +1,1 @@
-export declare const commands: any[];
+export {};
